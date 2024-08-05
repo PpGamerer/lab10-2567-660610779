@@ -13,6 +13,8 @@ export default function RandomUserPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [genAmount, setGenAmount] = useState(1);
 
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
   const generateBtnOnClick = async () => {
     setIsLoading(true);
     const resp = await axios.get(
@@ -27,11 +29,16 @@ export default function RandomUserPage() {
     const cleanedUsers = users.map(cleanUser);
     setUsers(cleanedUsers);
   };
-    
+
     useEffect(() => {
+      if (isFirstLoad) {
+        setIsFirstLoad(false);
+        return;
+      }
       const jsonStr = JSON.stringify(genAmount);
       localStorage.setItem("genAmount", jsonStr);
     },[genAmount]);
+
     useEffect(() => {
       const jsonStr = localStorage.getItem("genAmount");
       if (jsonStr !== null){
@@ -39,6 +46,7 @@ export default function RandomUserPage() {
         setGenAmount(newGenAmount);
       }
     },[]);
+    
   return (
     <div style={{ maxWidth: "700px" }} className="mx-auto">
       <p className="display-4 text-center fst-italic m-4">Users Generator</p>
