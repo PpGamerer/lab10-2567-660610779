@@ -32,7 +32,13 @@ export default function RandomUserPage() {
       const jsonStr = JSON.stringify(genAmount);
       localStorage.setItem("genAmount", jsonStr);
     },[genAmount]);
- 
+    useEffect(() => {
+      const jsonStr = localStorage.getItem("genAmount");
+      if (jsonStr !== null){
+        const newGenAmount = JSON.parse(jsonStr);
+        setGenAmount(newGenAmount);
+      }
+    },[]);
   return (
     <div style={{ maxWidth: "700px" }} className="mx-auto">
       <p className="display-4 text-center fst-italic m-4">Users Generator</p>
