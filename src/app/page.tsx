@@ -8,7 +8,7 @@ import { UserCardProps } from "@/libs/types";
 
 export default function RandomUserPage() {
   // annotate type for users state variable
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState<UserCardProps[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [genAmount, setGenAmount] = useState(1);
@@ -32,7 +32,7 @@ export default function RandomUserPage() {
       const jsonStr = JSON.stringify(genAmount);
       localStorage.setItem("genAmount", jsonStr);
     },[genAmount]);
-
+ 
   return (
     <div style={{ maxWidth: "700px" }} className="mx-auto">
       <p className="display-4 text-center fst-italic m-4">Users Generator</p>
@@ -52,7 +52,7 @@ export default function RandomUserPage() {
       {isLoading && (
         <p className="display-6 text-center fst-italic my-4">Loading ...</p>
       )}
-      {users && !isLoading && users.map((user: UserCardProps) => (<UserCard key={user.email} name={user.name} imgUrl={user.imgUrl} address={user.address} email={user.email}/>))}
+      {users && !isLoading && users.map((user: UserCardProps) => (<UserCard key={user.email} {...user}/>))} //
     </div>
   );
 }
